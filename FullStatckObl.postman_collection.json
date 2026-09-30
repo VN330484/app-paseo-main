@@ -1,0 +1,2888 @@
+{
+  "info": {
+    "_postman_id": "ce57043b-a486-4876-bcd1-4144c4a69f26",
+    "name": "FullStatckObl",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46970782",
+    "_collection_link": "https://go.postman.co/collection/46970782-ce57043b-a486-4876-bcd1-4144c4a69f26?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response contains token\", function () {\r",
+                  "    pm.expect(response.token).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Username exists\", function () {\r",
+                  "    pm.expect(response.usuario.username).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"token\", response.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"username\": \"veronika3\",\r\n\"password\": \"123456\",\r\n\"confirmPassword\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/register",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Duplicate User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"User already exists\", function () {\r\n    pm.expect(response.message).to.eql(\"El usuario ya existe\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"veronika3\",\r\n  \"password\": \"123456\",\r\n  \"confirmPassword\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/register",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response contains token\", function () {\r",
+                  "    pm.expect(response.token).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"token\", response.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"veronika3\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/login",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Error message is correct\", function () {\r\n    pm.expect(response.message).to.eql(\"Datos incorrectos\");\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"veronika3\",\r\n  \"password\": \"123456789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/login",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Error message is correct\", function () {\r",
+                  "    pm.expect(response.message).to.eql(\"Datos incorrectos\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"usuarioQueNoExiste\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/login",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Response contains token\", function () {\r",
+                  "    pm.expect(response.token).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Admin username is returned\", function () {\r",
+                  "    pm.expect(response.usuario.username).to.eql(\"admin\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"adminToken\", response.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"admin123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/login",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Planes",
+      "item": [
+        {
+          "name": "Change plan Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Plan changed to PREMIUM\", function () {\r\n    pm.expect(response.usuario.plan).to.eql(\"PREMIUM\");\r\n});\r\n\r\npm.test(\"Message is correct\", function () {\r\n    pm.expect(response.message)\r\n      .to.eql(\"Plan actualizado a PREMIUM\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/cambiar-plan",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "cambiar-plan"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Plan Already Premium",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"User is already PREMIUM\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"El usuario ya tiene el plan PREMIUM\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{prod_base_url}}/v1/auth/cambiar-plan",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "cambiar-plan"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mascotas",
+      "item": [
+        {
+          "name": "Crear Mascota",
+          "item": [
+            {
+              "name": "Crear Mascota",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const response = pm.response.json();\r\n\r\npm.collectionVariables.set(\"mascotaId\", response._id);\r\n\r\npm.test(\"Variable saved\", function () {\r\n    pm.expect(\r\n        pm.collectionVariables.get(\"mascotaId\")\r\n    ).to.eql(response._id);\r\n});\r\n``"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Vero\",\r\n  \"raza\": \"Caniche\",\r\n  \"edad\": 7\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Mascota Limit Reached",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r\n    pm.response.to.have.status(403);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"PLUS limit reached\", function () {\r\n    pm.expect(response.message)\r\n      .to.eql(\"El usuario PLUS no puede tener más de 4 mascotas\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Mora\",\r\n  \"raza\": \"Cocker Spaniel\",\r\n  \"edad\": 7\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Duplicated mascota",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota creada correctamente\", function () {\r\n    pm.expect(response.nombre).to.eql(\"Vero\");\r\n});\r\n\r\npm.test(\"Raza correcta\", function () {\r\n    pm.expect(response.raza).to.eql(\"Caniche\");\r\n});\r\n\r\npm.test(\"Edad correcta\", function () {\r\n    pm.expect(response.edad).to.eql(7);\r\n});\r\n\r\npm.collectionVariables.set(\"mascotaId\", response._id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Vero\",\r\n  \"raza\": \"Caniche\",\r\n  \"edad\": 7\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Usuario sin token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"No se proporcionó el token\", function () {\r\n    pm.expect(response.message)\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Nombre Required",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code validation\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"El nombre de la mascota es obligatorio\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n      .to.contain(\"El nombre de la mascota es obligatorio\");\r\n});\r\n``"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Raza Required",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code validation\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Raza requerida\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n      .to.contain(\"La raza de la mascota es obligatoria\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"edad\": 3\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Edad Negativa",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code validation\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Edad inválida\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n      .to.contain(\"La edad de la mascota debe ser un número positivo\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": -1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Nombre Vacío",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code validation\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Nombre vacío\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n      .to.contain(\"El nombre de la mascota no puede estar vacío\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"\",\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": 3\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Raza Vacía",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code validation\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Raza vacía\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n      .to.contain(\"La raza de la mascota no puede estar vacía\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"raza\": \"\",\r\n  \"edad\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Nombre Exceeds Max Length",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Nombre max length validation\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"nombre\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Edad Decimal",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": 3.5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Edad Missing",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"raza\": \"Golden Retriever\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Validation - Raza Max Length",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Raza max length validation\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"raza\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\",\r\n  \"raza\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\r\n  \"edad\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/crearMascota",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "crearMascota"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Mascota",
+          "item": [
+            {
+              "name": "Mascota Eliminada",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota eliminada correctamente\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Mascota eliminada correctamente\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/eliminarMascota/6abd24c3e2b2a869cc57d951",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "eliminarMascota",
+                    "6abd24c3e2b2a869cc57d951"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token is required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/eliminarMascota/6ab472feb6d81d875b93f020",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "eliminarMascota",
+                    "6ab472feb6d81d875b93f020"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Invalid ID validation\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"id\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/eliminarMascota/123",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "eliminarMascota",
+                    "123"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota not found\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Mascota no encontrada\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/eliminarMascota/68aaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "eliminarMascota",
+                    "68aaaaaaaaaaaaaaaaaaaaaa"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Modificar mascota",
+          "item": [
+            {
+              "name": "Update Mascota Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota updated\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Mascota actualizada correctamente\");\r\n});\r\n\r\npm.test(\"Nombre actualizado\", function () {\r\n    pm.expect(response.mascota.nombre)\r\n        .to.eql(\"Rocky Actualizado\");\r\n});\r\n\r\npm.test(\"Edad actualizada\", function () {\r\n    pm.expect(response.mascota.edad)\r\n        .to.eql(4);\r\n});\r\n\r\npm.test(\"Foto URL actualizada\", function () {\r\n    pm.expect(response.mascota.fotoUrl)\r\n        .to.eql(pm.collectionVariables.get(\"photoUrl\"));\r\n});\r\n\r\npm.test(\"Foto es de Cloudinary\", function () {\r\n    pm.expect(response.mascota.fotoUrl)\r\n        .to.contain(\"cloudinary\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \" Vero\",\r\n  \"raza\": \"Caniche\",\r\n  \"edad\": 4,\r\n  \"fotoUrl\" : \"{{photoUrl}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/{{mascotaId}}",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "{{mascotaId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Mascota Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});\r\n``"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/6ab47371b6d81d875b93f022",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "6ab47371b6d81d875b93f022"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Mascota Invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/123",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "123"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Mascota Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota not found\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Mascota no encontrada\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Luna\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/68aaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "68aaaaaaaaaaaaaaaaaaaaaa"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Nombre vacío",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Nombre vacío validation\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"El nombre de la mascota no puede estar vacío\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"\",\r\n  \"raza\": \"Golden Retriever\",\r\n  \"edad\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/6ab47371b6d81d875b93f022",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "6ab47371b6d81d875b93f022"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Actualizar Mascota Edad Negativa",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Edad negativa validation\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"La edad de la mascota debe ser un número positivo\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Max\",\r\n  \"raza\": \"Caniche\",\r\n  \"edad\": -1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/actualizarMascota/6ab47371b6d81d875b93f022",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "actualizarMascota",
+                    "6ab47371b6d81d875b93f022"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Consulta Mascota",
+          "item": [
+            {
+              "name": "Get Mascotas Succes",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Response is an array\", function () {\r\n    pm.expect(response).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"At least one mascota exists\", function () {\r\n    pm.expect(response.length).to.be.greaterThan(0);\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Mascotas Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Postman Test - Filter by Raza Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Returned mascota has Caniche breed\", function () {\r\n    pm.expect(response.raza).to.eql(\"Caniche\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/raza/Caniche",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "raza",
+                    "Caniche"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Postman Test - Filter by Raza Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota not found\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Mascota no encontrada\");\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/raza/PastorMarciano",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "raza",
+                    "PastorMarciano"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Postman Test - Filter by Raza Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/raza/PastorMarciano",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "raza",
+                    "PastorMarciano"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Edad Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Response is an array\", function () {\r\n    pm.expect(response).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"All mascotas are 4 years old\", function () {\r\n    response.forEach(mascota => {\r\n        pm.expect(mascota.edad).to.eql(4);\r\n    });\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/edad/4",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "edad",
+                    "4"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Edad Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"No mascotas found\", function () {\r\n    pm.expect(response.length).to.eql(0);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/edad/999",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "edad",
+                    "999"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Edad Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/edad/4",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "edad",
+                    "4"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Edad Invalid Value",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Edad must be a valid number\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"edad\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/mascotas/edad/abc",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "mascotas",
+                    "edad",
+                    "abc"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Categorias",
+      "item": [
+        {
+          "name": "Crear categoria",
+          "item": [
+            {
+              "name": "Crear Categoria Usuario Sin Permisos",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r\n    pm.response.to.have.status(403);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Only administrators can create categories\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Acceso denegado. Solo administradores.\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo Nocturno\",\r\n  \"descripcion\": \"Paseo para mascotas durante la noche\",\r\n  \"precio\": 900,\r\n  \"duracion\": 90\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Success (ADMIN)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Nombre correcto\", function () {\r\n    pm.expect(response.nombre).to.eql(\"Paseo VIP\");\r\n});\r\n\r\npm.test(\"Descripcion generada por IA\", function () {\r\n    pm.expect(response.descripcion).to.exist;\r\n    pm.expect(response.descripcion.length).to.be.greaterThan(10);\r\n});\r\n\r\npm.test(\"Precio correcto\", function () {\r\n    pm.expect(response.precio).to.eql(1200);\r\n});\r\n\r\npm.test(\"Duracion correcta\", function () {\r\n    pm.expect(response.duracion).to.eql(120);\r\n});\r\n\r\npm.test(\"Categoria tiene ID\", function () {\r\n    pm.expect(response._id).to.exist;\r\n});\r\n\r\npm.collectionVariables\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo VIP\",\r\n  \"descripcion\": \"Temporal\",\r\n  \"precio\": 1200,\r\n  \"duracion\": 120\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Duplicate",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Categoria ya existe\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"existe\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo Nocturno\",\r\n  \"descripcion\": \"Paseo para mascotas durante la noche\",\r\n  \"precio\": 900,\r\n  \"duracion\": 90\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token requerido\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Nombre Required",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Nombre requerido\", function () {\r\n    const response = pm.response.json();\r\n\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"nombre\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"descripcion\": \"Servicio de paseo\",\r\n  \"precio\": 900,\r\n  \"duracion\": 90\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Descripcion Required",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Descripcion requerida\", function () {\r\n    const response = pm.response.json();\r\n\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"descripcion\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo VIP\",\r\n  \"precio\": 900,\r\n  \"duracion\": 90\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Precio Negativo",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo VIP\",\r\n  \"descripcion\": \"Servicio premium\",\r\n  \"precio\": -10,\r\n  \"duracion\": 90\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Categoria Duracion Decimal",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Paseo VIP\",\r\n  \"descripcion\": \"Servicio premium\",\r\n  \"precio\": 900,\r\n  \"duracion\": 90.5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/crearCategoria",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "crearCategoria"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Eliminar categoria",
+          "item": [
+            {
+              "name": "Delete Categoria Success (ADMIN)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Categoria eliminada correctamente\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Categoria eliminada correctamente\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/6abd2942e2b2a869cc57d953",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "6abd2942e2b2a869cc57d953"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Categoria Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token requerido\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/6ab9291b400de39bba8d2cc9",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "6ab9291b400de39bba8d2cc9"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Categoria Only Admin",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r\n    pm.response.to.have.status(403);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Only admins can delete categories\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Acceso denegado. Solo administradores.\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/6ab9291b400de39bba8d2cc9",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "6ab9291b400de39bba8d2cc9"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Categoria Invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/111",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "111"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Categoria Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Categoria no encontrada\", function () {\r\n    pm.expect(response.message)\r\n        .to.contain(\"no encontrada\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/68aaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "68aaaaaaaaaaaaaaaaaaaaaa"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Categoria With Associated Reserva",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Category has associated reservations\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"No se puede eliminar la categoría porque tiene reservas asociadas\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/eliminarCategoria/{{categoriaId}}",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "eliminarCategoria",
+                    "{{categoriaId}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Modificar categoria",
+          "item": [
+            {
+              "name": "Update Categoria Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Categoria actualizada correctamente\", function () {\r\n    pm.expect(response.nombre)\r\n        .to.eql(\"Hospedaje Premium\");\r\n});\r\n\r\npm.test(\"Precio actualizado\", function () {\r\n    pm.expect(response.precio)\r\n        .to.eql(2500);\r\n});\r\n\r\npm.test(\"Duracion actualizada\", function () {\r\n    pm.expect(response.duracion)\r\n        .to.eql(2880);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Hospedaje Premium\",\r\n  \"descripcion\": \"Servicio premium con cuidados personalizados\",\r\n  \"precio\": 2500,\r\n  \"duracion\": 2880\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/actualizarCategoria/6abd29b1e2b2a869cc57d954",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "actualizarCategoria",
+                    "6abd29b1e2b2a869cc57d954"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Categoria Only Admin",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r\n    pm.response.to.have.status(403);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Only admins can update categories\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Acceso denegado. Solo administradores.\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Hospedaje Premium\",\r\n  \"descripcion\": \"Servicio premium con cuidados personalizados\",\r\n  \"precio\": 2500,\r\n  \"duracion\": 2880\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/actualizarCategoria/{{categoriaId}}",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "actualizarCategoria",
+                    "{{categoriaId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Categoria Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/actualizarCategoria/{{categoriaId}}",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "actualizarCategoria",
+                    "{{categoriaId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Categoria Invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/actualizarCategoria/123",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "actualizarCategoria",
+                    "123"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Categoria Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/actualizarCategoria/68aaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "actualizarCategoria",
+                    "68aaaaaaaaaaaaaaaaaaaaaa"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Consultas categoria",
+          "item": [
+            {
+              "name": "Get Categorias Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Response is array\", function () {\r\n    pm.expect(response).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Categories found\", function () {\r\n    pm.expect(response.length).to.be.greaterThan(0);\r\n});\r\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Categoria By Id Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Category has id\", function () {\r\n    pm.expect(response._id).to.exist;\r\n});\r\n\r\npm.test(\"Category has nombre\", function () {\r\n    pm.expect(response.nombre).to.exist;\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/{{categoriaId}}",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "{{categoriaId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Categoria Invalid Id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Validation error\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"id\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/obtenerCategoria/153",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "obtenerCategoria",
+                    "153"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Categoria Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Category not found\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Categoría no encontrada\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/obtenerCategoria/68aaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "obtenerCategoria",
+                    "68aaaaaaaaaaaaaaaaaaaaaa"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Categoria Without Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Token required\", function () {\r\n    pm.expect(response.message.toLowerCase())\r\n        .to.contain(\"token\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{prod_base_url}}/v1/categorias/obtenerCategoria/153",
+                  "host": [
+                    "{{prod_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categorias",
+                    "obtenerCategoria",
+                    "153"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reserva",
+      "item": [
+        {
+          "name": "Create reserva",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Reserva tiene ID\", function () {\r\n    pm.expect(response._id).to.exist;\r\n});\r\n\r\npm.test(\"Mascota correcta\", function () {\r\n    pm.expect(response.mascota)\r\n        .to.eql(\"6ab47381b6d81d875b93f024\");\r\n});\r\n\r\npm.test(\"Categoria correcta\", function () {\r\n    pm.expect(response.categoria)\r\n        .to.eql(pm.collectionVariables.get(\"categoriaId\"));\r\n});\r\n\r\npm.test(\"Fecha correcta\", function () {\r\n    pm.expect(response.fecha)\r\n        .to.contain(\"2026-10-15\");\r\n});\r\n\r\npm.collectionVariables.set(\"reservaId\", response._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"mascota\": \"{{mascotaId}}\",\r\n  \"categoria\": \"{{categoriaId}}\",\r\n  \"fecha\": \"2026-10-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/reserva/crearReserva",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "reserva",
+                "crearReserva"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reserva Without Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"mascota\": \"6ab47381b6d81d875b93f024\",\r\n  \"categoria\": \"{{categoriaId}}\",\r\n  \"fecha\": \"2026-10-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/reserva/crearReserva",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "reserva",
+                "crearReserva"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reserva Duplicate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Duplicate reservation rejected\", function () {\r\n    pm.expect(response.message)\r\n        .to.eql(\"Ya existe una reserva para esta mascota, categoría y fecha\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"mascota\": \"6ab47381b6d81d875b93f024\",\r\n  \"categoria\": \"{{categoriaId}}\",\r\n  \"fecha\": \"2026-10-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/reserva/crearReserva",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "reserva",
+                "crearReserva"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reserva Invalid Mascota",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Mascota ID invalido\", function () {\r\n    pm.expect(JSON.stringify(response))\r\n        .to.contain(\"mascota\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"mascota\": \"123\",\r\n  \"categoria\": \"{{categoriaId}}\",\r\n  \"fecha\": \"2026-10-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/reserva/crearReserva",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "reserva",
+                "crearReserva"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Image",
+      "item": [
+        {
+          "name": "Upload Image Success Show",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.test(\"Image URL was generated\", function () {\r\n    pm.expect(response.url).to.exist;\r\n});\r\n\r\npm.test(\"Folder returned\", function () {\r\n    pm.expect(response.folder).to.exist;\r\n});\r\n\r\n\r\npm.collectionVariables.set(\r\n    \"photoUrl\",\r\n    response.url\r\n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imagen",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/Veronika/OneDrive/Рабочий стол/ORT/Des fullstack/Vero.jpg"
+                  ]
+                },
+                {
+                  "key": "folder",
+                  "value": "mascotas",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{prod_base_url}}/v1/uploads/imagen",
+              "host": [
+                "{{prod_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "uploads",
+                "imagen"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "prod_base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "categoriaId",
+      "value": ""
+    },
+    {
+      "key": "mascotaId",
+      "value": ""
+    },
+    {
+      "key": "reservaId",
+      "value": ""
+    },
+    {
+      "key": "photoUrl",
+      "value": ""
+    }
+  ]
+}
