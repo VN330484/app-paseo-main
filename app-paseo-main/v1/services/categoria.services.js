@@ -1,9 +1,14 @@
 import Categoria from '../models/categoria.model.js';
 import Reserva from '../models/reserva.model.js';
+import { generarDescripcionCategoria } from "./groq.services.js";
+
 
 
 export const crearCategoriaService = async (categoriaData) => {
-    const categoriaBuscada = await Categoria.findOne({ nombre: categoriaData.nombre });
+
+    const categoriaBuscada = await Categoria.findOne({
+        nombre: categoriaData.nombre
+    });
 
     if (categoriaBuscada) {
         const error = new Error("La categoría ya existe");
@@ -12,10 +17,37 @@ export const crearCategoriaService = async (categoriaData) => {
         throw error;
     }
 
-    const categoria = new Categoria(categoriaData);
+    let descripcionIA = categoriaData.descripcion;
+
+    try {
+
+        descripcionIA = await generarDescripcionCategoria(
+            categoriaData.nombre
+        );
+
+    } catch (error) {
+
+        console.log(
+            "Groq no disponible. Se continúa sin descripción generada."
+        );
+
+        descripcionIA =
+            categoriaData.descripcion ||
+            "Descripción no disponible";
+
+    }
+
+    console.log("categoriaData:", categoriaData);
+console.log("descripcionIA:", descripcionIA);
+
+
+    const categoria = new Categoria({...categoriaData, descripcion: descripcionIA
+    });
+
     await categoria.save();
+
     return categoria;
-}
+};
 
 
 
