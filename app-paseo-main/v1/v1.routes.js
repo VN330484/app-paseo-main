@@ -10,13 +10,15 @@ const router = express.Router({mergeParams: true});
 
 //Rutas públicas Login y Registro
 router.use('/auth', authRouter);
+
+router.use(authenticateMiddleware);
+
 router.use('/mascotas', mascotasRouter);
 router.use('/categorias',categoriaRouter);
 router.use('/reserva', reservaRouter);
 router.use('/uploads', uploadsRouter);
 
 //middleware para verificacion de token
-router.use(authenticateMiddleware);
 
 //Rutas protegidas
 

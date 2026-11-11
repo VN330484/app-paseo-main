@@ -38,13 +38,10 @@ router.patch(
 router.get(
     "/obtenerCategoria/:id",
     authenticateMiddleware,
-    adminMiddleware,
-    validateParamsMiddleware(categoriaIdParamSchema),
     obtenerCategoriaPorId
 );
 
 router.get("/",authenticateMiddleware,
-    adminMiddleware,
     obtenerCategorias);
 
 

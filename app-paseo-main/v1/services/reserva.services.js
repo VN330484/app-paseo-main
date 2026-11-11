@@ -6,6 +6,10 @@ import { enviarReservaEmail } from "./email.services.js";
 
 export const crearReservaService = async (reservaData) => {
 
+    console.log("RESERVA NUEVA:");
+    console.log(reservaData);
+    console.log("FECHA:", reservaData.fecha);
+
     const reservaBuscada = await Reserva.findOne({
         mascota: reservaData.mascota,
         categoria: reservaData.categoria,

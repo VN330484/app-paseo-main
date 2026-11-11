@@ -32,12 +32,14 @@ export const actualizarMascota = async (req, res) => {
 
 export const obtenerMascotas = async (req, res) => {
     const { limit , page } = req.query;
-    const mascotas = await obtenerMascotasService(limit,page);
+    const mascotas = await obtenerMascotasService(req.decoded.usuario, limit, page);
     res.json(mascotas);
 };
 
 export const obtenerMascotaPorRaza = async (req, res) => {
     const { raza} = req.params;
+
+    console.log("raza", raza);
     const mascota = await obtenerMascotaPorRazaService(raza);
     res.json(mascota);
 }

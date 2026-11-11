@@ -55,17 +55,23 @@ export const actualizarMascotaService = async (id, mascotaData) => {
     return mascota;
 };
 
-export const obtenerMascotasService = async (limit, page) => {
+export const obtenerMascotasService = async (username, limit, page) => {
+    const usuario = await Usuario.findOne({ username });
     limit = Number(limit) || 3;
     page = Number(page) || 1;
     const skip = (page - 1) * limit;
-    const totalPages = Math.ceil(await Mascota.countDocuments() / limit);
-    const mascotas = await Mascota.find().skip(skip).limit(limit).populate("propietario");
+    const totalMascotas = await Mascota.countDocuments({ propietario: usuario._id });
+    const totalPages = Math.ceil(totalMascotas / limit);
+    const mascotas = await Mascota.find({ propietario: usuario._id }).skip(skip).limit(limit).populate("propietario");
     return {mascotas, limit, page, totalPages};
 };
 
 export const obtenerMascotaPorRazaService = async (raza) => {
-    const mascotas = await Mascota.find({ raza });
+
+    console.log ("Buscando mascotas por raza:", raza);
+    const mascotas = await Mascota.find({ raza:{  $regex: `^${raza.trim()}$`, $options: "i" } });
+
+    console.log("Mascotas encontradas:", mascotas);
     if (mascotas.length === 0) {
         const error = new Error("Mascota no encontrada");
         error.status = 404;
@@ -75,7 +81,7 @@ export const obtenerMascotaPorRazaService = async (raza) => {
 }
 
 export const obtenerMascotaPorEdadService = async (edad) => {
-    const mascotas = await Mascota.find({ edad });
+    const mascotas = await Mascota.find({ edad: Number(edad) });
     if (mascotas.length === 0) {
         const error = new Error("Mascota no encontrada");
         error.status = 404;

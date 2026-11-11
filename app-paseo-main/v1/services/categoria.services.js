@@ -101,10 +101,11 @@ export const obtenerCategoriaPorIdService = async (id) => {
 };
 
 export const obtenerCategoriasService = async (limit, page) => {
-    limit = Number(limit) || 3;
+    const totalCategorias = await Categoria.countDocuments();
+    limit = Number(limit) || totalCategorias || 1;
     page = Number(page) || 1;
     const skip = (page - 1) * limit;
-    const totalPages = Math.ceil(await Categoria.countDocuments() / limit);
+    const totalPages = Math.ceil(totalCategorias / limit);
     const categorias = await Categoria.find().skip(skip).limit(limit);
     return { categorias, limit, page, totalPages };
 };

@@ -9,7 +9,7 @@ export const categoriaServicioSchema = Joi.object({
     descripcion: Joi.string()
         .min(5)
         .max(255)
-        .required(),
+        .optional(),
 
     precio: Joi.number()
         .min(0)

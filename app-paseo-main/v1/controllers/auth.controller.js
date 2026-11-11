@@ -8,7 +8,7 @@ export const ingresarUsuario = async (req, res) => {
 
   const {username, password} = req.body;
   const { usuario, token } = await loginService(username, password);
-  res.json({ message: 'Iniciando sesión', usuario: { username }, token });
+  res.json({ message: 'Iniciando sesión', usuario: { username: usuario.username, plan: usuario.plan, perfil:usuario.perfil } , token });
 };
 
 
@@ -16,7 +16,7 @@ export const ingresarUsuario = async (req, res) => {
 export const registrarUsuario =  async (req, res) => {
   const { username, password } = req.body;
   const { usuario, token } = await registerService(username, password);
-  res.json({ message: 'Registrando usuario con hash', usuario: { username}, token });
+  res.json({ message: 'Registrando usuario con hash', usuario: { username: usuario.username, plan: usuario.plan } , token });
 };
 
 export const cambiarPlan = async (req, res) => {

@@ -18,6 +18,8 @@ export const loginService = async (username, password) => {
         throw error;
     }
     const token = jwt.sign({ usuario: username,perfil: usuario.perfil }, process.env.SECRET_KEY, { expiresIn: '1h' });
+
+    console.log("USUARIO", usuario)
     return { usuario, token };
 };
 
